@@ -1,14 +1,22 @@
 package it.prova.gestionetriage.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import it.prova.gestionetriage.exceptions.PazienteNotFoundException;
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.repository.PazienteRepository;
+import javax.persistence.criteria.Predicate;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
+import org.apache.commons.lang3.StringUtils;
 
 @Service
 public class PazienteServiceImpl implements PazienteService {
@@ -23,8 +31,40 @@ public class PazienteServiceImpl implements PazienteService {
 
 	@Override
 	public Page<Paziente> searchAndPaginate(Paziente pazienteExample, Integer pageNo, Integer pageSize, String sortBy) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Specification<Paziente> specificationCriteria = (root, query, cb) -> {
+
+			List<Predicate> predicates = new ArrayList<Predicate>();
+
+			if (!StringUtils.isEmpty(pazienteExample.getNome()))
+				predicates
+						.add(cb.like(cb.upper(root.get("nome")), "%" + pazienteExample.getNome().toUpperCase() + "%"));
+
+			if (!StringUtils.isEmpty(pazienteExample.getCognome()))
+				predicates.add(
+						cb.like(cb.upper(root.get("cognome")), "%" + pazienteExample.getCognome().toUpperCase() + "%"));
+
+			if (!StringUtils.isEmpty(pazienteExample.getCognome()))
+				predicates.add(cb.like(cb.upper(root.get("codicefiscale")),
+						"%" + pazienteExample.getCodiceFiscale().toUpperCase() + "%"));
+
+			if (pazienteExample.getDataRegistrazione() != null)
+				predicates.add(
+						cb.greaterThanOrEqualTo((root.get("datacreazione")), pazienteExample.getDataRegistrazione()));
+
+			if (pazienteExample.getStato() != null)
+				predicates.add(cb.like(cb.upper(root.get("statoPaziente")), "%" + pazienteExample.getStato() + "%"));
+
+			if (pazienteExample.getDottore().getId() != null)
+				predicates
+						.add(cb.like(cb.upper(root.get("dottore")), "%" + pazienteExample.getDottore().getId() + "%"));
+
+			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+		};
+
+		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+		return pazienteRepository.findAll(specificationCriteria, paging);
 	}
 
 	@Override
