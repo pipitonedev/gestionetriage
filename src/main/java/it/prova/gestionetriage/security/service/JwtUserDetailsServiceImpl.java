@@ -6,9 +6,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import it.prova.dispositivo.model.User;
-import it.prova.dispositivo.security.jwt.dto.JwtUserDetailsImpl;
-import it.prova.dispositivo.security.repository.UserRepository;
+import it.prova.gestionetriage.model.User;
+import it.prova.gestionetriage.security.jwt.dto.JwtUserDetailsImpl;
+import it.prova.gestionetriage.security.repository.UserRepository;
+
 
 @Service
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
