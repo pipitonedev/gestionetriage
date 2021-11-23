@@ -14,6 +14,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import it.prova.gestionetriage.security.jwt.dto.JwtUserDetailsImpl;
 
 
 @Component

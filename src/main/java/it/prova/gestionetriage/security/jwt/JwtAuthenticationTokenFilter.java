@@ -19,6 +19,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import it.prova.gestionetriage.security.service.JwtUserDetailsServiceImpl;
+
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
