@@ -93,15 +93,9 @@ public class PazienteDTO {
 
 	public static PazienteDTO buildPazienteDTOFromModel(Paziente pazienteModel) {
 		PazienteDTO result = new PazienteDTO(pazienteModel.getId(), pazienteModel.getNome(), pazienteModel.getCognome(),
-				pazienteModel.getCodiceFiscale(), pazienteModel.getDataRegistrazione(),
-				pazienteModel.getStato(), DottoreDTO.buildDottoreDTOFromModel(pazienteModel.getDottore()));
+				pazienteModel.getCodiceFiscale(), pazienteModel.getDataRegistrazione(), pazienteModel.getStato(),
+				DottoreDTO.buildDottoreDTOFromModel(pazienteModel.getDottore()));
 		return result;
-	}
-
-	public static List<PazienteDTO> createPazienteDTOListFromModelList(List<Paziente> modelListInput) {
-		return modelListInput.stream().map(pazienteEntity -> {
-			return PazienteDTO.buildPazienteDTOFromModel(pazienteEntity);
-		}).collect(Collectors.toList());
 	}
 
 	public Paziente buildPazienteModel() {

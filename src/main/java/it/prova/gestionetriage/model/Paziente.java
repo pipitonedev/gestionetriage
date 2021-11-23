@@ -38,7 +38,7 @@ public class Paziente {
 		this.statoPaziente = statoPaziente;
 	}
 
-	public Paziente(Long id, String nome, String cognome, String codiceFiscale, Date dataRegistrazione,
+	public Paziente(Long id, String nome, String cognome, String codiceFiscale, Date dataRegistrazione, Dottore dottore,
 			StatoPaziente statoPaziente) {
 		super();
 		this.id = id;
@@ -46,36 +46,8 @@ public class Paziente {
 		this.cognome = cognome;
 		this.codiceFiscale = codiceFiscale;
 		this.dataRegistrazione = dataRegistrazione;
-		this.statoPaziente = statoPaziente;
-	}
-
-	public Paziente(String nome, String cognome, String codiceFiscale, Date dataRegistrazione, Dottore dottore,
-			StatoPaziente statoPaziente) {
-		super();
-		this.nome = nome;
-		this.cognome = cognome;
-		this.codiceFiscale = codiceFiscale;
-		this.dataRegistrazione = dataRegistrazione;
 		this.dottore = dottore;
 		this.statoPaziente = statoPaziente;
-	}
-
-	public Paziente(String nome, String cognome, String codiceFiscale, Date dataRegistrazione,
-			StatoPaziente statoPaziente) {
-		super();
-		this.nome = nome;
-		this.cognome = cognome;
-		this.codiceFiscale = codiceFiscale;
-		this.dataRegistrazione = dataRegistrazione;
-		this.statoPaziente = statoPaziente;
-	}
-
-	public Paziente(String nome, String cognome, String codiceFiscale, Date dataRegistrazione) {
-		super();
-		this.nome = nome;
-		this.cognome = cognome;
-		this.codiceFiscale = codiceFiscale;
-		this.dataRegistrazione = dataRegistrazione;
 	}
 
 	public Long getId() {

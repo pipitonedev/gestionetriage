@@ -74,19 +74,9 @@ public class DottoreDTO {
 				this.pazienteAttualmenteInVisita.buildPazienteModel());
 	}
 
-	public static DottoreDTO buildDottoreDTOFromModel(Dottore dottoreModel) {
-		DottoreDTO result = new DottoreDTO(dottoreModel.getId(), dottoreModel.getNome(), dottoreModel.getCognome(),
-				dottoreModel.getCodiceDipendente(),
-				PazienteDTO.buildPazienteDTOFromModel(dottoreModel.getPazienteAttualmenteInVisita()));
-		return result;
-	}
-
-	public static List<DottoreDTO> createDottoreDTOListFromModelList(List<Dottore> modelListInput) {
-		return modelListInput.stream().map(dottoreEntity -> {
-			DottoreDTO result = DottoreDTO.buildDottoreDTOFromModel(dottoreEntity);
-
-			return result;
-		}).collect(Collectors.toList());
+	public static DottoreDTO buildDottoreDTOFromModel(Dottore input) {
+		return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
+				PazienteDTO.buildPazienteDTOFromModel(input.getPazienteAttualmenteInVisita()));
 	}
 
 }
