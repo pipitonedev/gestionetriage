@@ -1,5 +1,6 @@
 package it.prova.gestionetriage.security.jwt;
 
+import java.util.Date;
 import java.util.List;
 
 public class JwtAuthenticationResponse {
@@ -7,13 +8,18 @@ public class JwtAuthenticationResponse {
 	private String token;
 	private String type = "Bearer";
 	private String username;
-	private String email;
+	private String nome;
+	private String cognome;
+	private Date dataRegistrazione;
 	private List<String> roles;
 
-	public JwtAuthenticationResponse(String accessToken, String username, String email, List<String> roles) {
+	public JwtAuthenticationResponse(String accessToken, String username, String nome, String cognome,
+			Date dataRegistrazione, List<String> roles) {
 		this.token = accessToken;
 		this.username = username;
-		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dataRegistrazione = dataRegistrazione;
 		this.roles = roles;
 	}
 
@@ -33,12 +39,28 @@ public class JwtAuthenticationResponse {
 		this.type = tokenType;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public Date getDataRegistrazione() {
+		return dataRegistrazione;
+	}
+
+	public void setDataRegistrazione(Date dataRegistrazione) {
+		this.dataRegistrazione = dataRegistrazione;
 	}
 
 	public String getUsername() {
