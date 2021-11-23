@@ -15,7 +15,7 @@ public class Dottore {
 	private Long id;
 	private String nome;
 	private String cognome;
-	private String codiceDipendete;
+	private String codiceDipendente;
 	private Paziente pazienteAttualmenteInVisita;
 
 	public Dottore() {
@@ -23,36 +23,36 @@ public class Dottore {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Dottore(Long id, String nome, String cognome, String codiceDipendete, Paziente pazienteAttualmenteInVisita) {
+	public Dottore(Long id, String nome, String cognome, String codiceDipendente, Paziente pazienteAttualmenteInVisita) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cognome = cognome;
-		this.codiceDipendete = codiceDipendete;
+		this.codiceDipendente = codiceDipendente;
 		this.pazienteAttualmenteInVisita = pazienteAttualmenteInVisita;
 	}
 
-	public Dottore(Long id, String nome, String cognome, String codiceDipendete) {
+	public Dottore(Long id, String nome, String cognome, String codiceDipendente) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cognome = cognome;
-		this.codiceDipendete = codiceDipendete;
+		this.codiceDipendente = codiceDipendente;
 	}
 
-	public Dottore(String nome, String cognome, String codiceDipendete, Paziente pazienteAttualmenteInVisita) {
+	public Dottore(String nome, String cognome, String codiceDipendente, Paziente pazienteAttualmenteInVisita) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
-		this.codiceDipendete = codiceDipendete;
+		this.codiceDipendente = codiceDipendente;
 		this.pazienteAttualmenteInVisita = pazienteAttualmenteInVisita;
 	}
 
-	public Dottore(String nome, String cognome, String codiceDipendete) {
+	public Dottore(String nome, String cognome, String codiceDipendente) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
-		this.codiceDipendete = codiceDipendete;
+		this.codiceDipendente = codiceDipendente;
 	}
 
 	public Long getId() {
@@ -79,12 +79,12 @@ public class Dottore {
 		this.cognome = cognome;
 	}
 
-	public String getCodiceDipendete() {
-		return codiceDipendete;
+	public String getCodiceDipendente() {
+		return codiceDipendente;
 	}
 
-	public void setCodiceDipendete(String codiceDipendete) {
-		this.codiceDipendete = codiceDipendete;
+	public void setCodiceDipendente(String codiceDipendente) {
+		this.codiceDipendente = codiceDipendente;
 	}
 
 	public Paziente getPazienteAttualmenteInVisita() {
