@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.service.PazienteService;
 
-@RequestMapping(value = "/paziente", produces = { MediaType.APPLICATION_JSON_VALUE })
+@RequestMapping(value = "/api/paziente", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class PazienteRestController {
 
 	@Autowired
