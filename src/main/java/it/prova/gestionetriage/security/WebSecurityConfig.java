@@ -73,8 +73,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						// HttpMethod.GET,
 						"/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
 				.permitAll().antMatchers("/public/**").permitAll().antMatchers(HttpMethod.GET, "/api/paziente/**")
+				.permitAll().antMatchers("/public/**").permitAll().antMatchers(HttpMethod.GET, "/api/dottore/**")
 				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers(HttpMethod.POST, "/api/paziente/search")
-				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers("/api/paziente/**").hasAnyAuthority("ROLE_ADMIN")
+				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers("/api/paziente/**")
+				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers(HttpMethod.POST, "/api/dottore/search")
+				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers("/api/dottore/**")
+				.hasAnyAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated();
 
 		// Filtro Custom JWT

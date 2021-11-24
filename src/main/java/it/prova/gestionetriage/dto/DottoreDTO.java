@@ -67,11 +67,17 @@ public class DottoreDTO {
 	}
 
 	public Dottore buildDottoreModel() {
+		if(this.pazienteAttualmenteInVisita == null)
+			return new Dottore(this.id, this.nome, this.cognome, this.codiceDipendente, null);
+					
 		return new Dottore(this.id, this.nome, this.cognome, this.codiceDipendente,
 				this.pazienteAttualmenteInVisita.buildPazienteModel());
 	}
 
 	public static DottoreDTO buildDottoreDTOFromModel(Dottore input) {
+		
+		if(input.getPazienteAttualmenteInVisita() == null)
+			return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(), null);
 		return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
 				PazienteDTO.buildPazienteDTOFromModel(input.getPazienteAttualmenteInVisita()));
 	}

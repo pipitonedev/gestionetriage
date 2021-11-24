@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User save(User input) {
 		input.setDataRegistrazione(new Date());
+		input.setStatoUtente(StatoUtente.CREATO);
 		return userRepository.save(input);
 	}
 

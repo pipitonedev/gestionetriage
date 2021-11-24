@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.service.PazienteService;
 
+@RestController
 @RequestMapping(value = "/api/paziente", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class PazienteRestController {
 

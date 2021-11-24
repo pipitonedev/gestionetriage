@@ -29,6 +29,9 @@ public class Paziente {
 	@Enumerated(EnumType.STRING)
 	private StatoPaziente statoPaziente;
 
+	public Paziente() {
+	}
+
 	public Paziente(Long id, String nome, String cognome, String codiceFiscale, Date dataRegistrazione,
 			StatoPaziente statoPaziente, Dottore dottore) {
 		super();
