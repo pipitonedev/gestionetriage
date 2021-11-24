@@ -23,23 +23,23 @@ public class JwtUserDetailsImpl implements UserDetails {
 	private String nome;
 	private String cognome;
 	private Date dataRegistrazione;
+	private StatoUtente statoUtente;
 	private final Collection<? extends GrantedAuthority> authorities;
 	private final boolean enabled;
-	private StatoUtente statoUtente;
+	
 
-	
-	
-	public JwtUserDetailsImpl(String username, String password, String nome, String cognome, Date dataRegistrazione,
-			Collection<? extends GrantedAuthority> authorities, boolean enabled, StatoUtente statoUtente) {
+	public JwtUserDetailsImpl(String username, String password, String nome, String cognome, Date dataRegistrazione,StatoUtente statoUtente,
+			Collection<? extends GrantedAuthority> authorities, boolean enabled) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataRegistrazione = dataRegistrazione;
+		this.statoUtente = statoUtente;
 		this.authorities = authorities;
 		this.enabled = enabled;
-		this.statoUtente = statoUtente;
+		
 	}
 
 	public static JwtUserDetailsImpl build(User user) {
@@ -52,10 +52,11 @@ public class JwtUserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 user.getNome(),
                 user.getCognome(),
-                user.getDataRegistrazaione(),
+                user.getDataRegistrazione(),
+                user.getStatoUtente(),
                 authorities,
-                user.getEnabled(),
-                user.getStatoUtente()
+                user.getEnabled()
+
                
         );
     }
@@ -88,7 +89,6 @@ public class JwtUserDetailsImpl implements UserDetails {
 	public String getPassword() {
 		return password;
 	}
-	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -99,8 +99,7 @@ public class JwtUserDetailsImpl implements UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
-	
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -124,7 +123,7 @@ public class JwtUserDetailsImpl implements UserDetails {
 	public void setStatoUtente(StatoUtente statoUtente) {
 		this.statoUtente = statoUtente;
 	}
-	
+
 	public Date getDataRegistrazione() {
 		return dataRegistrazione;
 	}

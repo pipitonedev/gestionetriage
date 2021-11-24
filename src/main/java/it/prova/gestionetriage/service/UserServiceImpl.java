@@ -1,6 +1,7 @@
 package it.prova.gestionetriage.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.Predicate;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import it.prova.gestionetriage.exceptions.UserNotFoundException;
 import it.prova.gestionetriage.model.StatoUtente;
 import it.prova.gestionetriage.model.User;
-import it.prova.gestionetriage.repository.UserRepository;
+import it.prova.gestionetriage.security.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,9 +49,9 @@ public class UserServiceImpl implements UserService {
 				predicates.add(
 						cb.like(cb.upper(root.get("username")), "%" + utenteExample.getUsername().toUpperCase() + "%"));
 
-			if (utenteExample.getDataRegistrazaione() != null)
+			if (utenteExample.getDataRegistrazione() != null)
 				predicates.add(
-						cb.greaterThanOrEqualTo((root.get("DATACREAZIONE")), utenteExample.getDataRegistrazaione()));
+						cb.greaterThanOrEqualTo((root.get("DATACREAZIONE")), utenteExample.getDataRegistrazione()));
 
 			if (utenteExample.getStatoUtente() != null)
 				predicates.add(cb.like(cb.upper(root.get("STATO")), "%" + utenteExample.getStatoUtente() + "%"));
@@ -71,6 +72,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User input) {
+		input.setDataRegistrazione(new Date());
 		return userRepository.save(input);
 	}
 
@@ -87,6 +89,11 @@ public class UserServiceImpl implements UserService {
 			caricoUser.setStatoUtente(StatoUtente.DISABILITATO);
 		}
 
+	}
+
+	@Override
+	public User update(User input) {
+		return userRepository.save(input);
 	}
 
 }

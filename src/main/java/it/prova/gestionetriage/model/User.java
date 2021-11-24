@@ -91,11 +91,11 @@ public class User {
 		this.cognome = cognome;
 	}
 
-	public Date getDataRegistrazaione() {
+	public Date getDataRegistrazione() {
 		return dataRegistrazione;
 	}
 
-	public void setDataRegistrazaione(Date dataRegistrazione) {
+	public void setDataRegistrazione(Date dataRegistrazione) {
 		this.dataRegistrazione = dataRegistrazione;
 	}
 

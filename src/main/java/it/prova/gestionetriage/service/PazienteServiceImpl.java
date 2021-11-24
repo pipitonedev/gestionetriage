@@ -22,10 +22,11 @@ import org.apache.commons.lang3.StringUtils;
 
 @Service
 public class PazienteServiceImpl implements PazienteService {
-
+	
+	@Autowired
 	private PazienteRepository pazienteRepository;
 
-	@Autowired
+	
 	@Override
 	public List<Paziente> listAll() {
 		return (List<Paziente>) pazienteRepository.findAll();

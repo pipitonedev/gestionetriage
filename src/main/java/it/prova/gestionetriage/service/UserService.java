@@ -15,6 +15,8 @@ public interface UserService {
 	User get(Long idInput);
 
 	User save(User input);
+	
+	User update(User input);
 
 	void changeUserAbilitation(Long id);
 
