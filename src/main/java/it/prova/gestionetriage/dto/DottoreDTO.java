@@ -1,11 +1,8 @@
 package it.prova.gestionetriage.dto;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.gestionetriage.model.Dottore;
-import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DottoreDTO {

@@ -1,13 +1,11 @@
 package it.prova.gestionetriage.dto;
 
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.model.StatoPaziente;
-import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PazienteDTO {

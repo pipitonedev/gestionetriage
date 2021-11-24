@@ -1,6 +1,7 @@
 package it.prova.gestionetriage.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import it.prova.gestionetriage.exceptions.PazienteNotFoundException;
 import it.prova.gestionetriage.model.Paziente;
+import it.prova.gestionetriage.model.StatoPaziente;
 import it.prova.gestionetriage.repository.PazienteRepository;
 import javax.persistence.criteria.Predicate;
 import org.springframework.data.domain.Pageable;
@@ -75,6 +77,8 @@ public class PazienteServiceImpl implements PazienteService {
 
 	@Override
 	public Paziente save(Paziente input) {
+		input.setDataRegistrazione(new Date());
+		input.setStato(StatoPaziente.IN_ATTESA_VISITA);
 		return pazienteRepository.save(input);
 	}
 
