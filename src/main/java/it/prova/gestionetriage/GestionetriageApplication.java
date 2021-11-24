@@ -13,8 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.prova.gestionetriage.model.Authority;
 import it.prova.gestionetriage.model.AuthorityName;
+import it.prova.gestionetriage.model.Dottore;
 import it.prova.gestionetriage.model.StatoUtente;
 import it.prova.gestionetriage.model.User;
+import it.prova.gestionetriage.repository.DottoreRepository;
 import it.prova.gestionetriage.security.repository.AuthorityRepository;
 import it.prova.gestionetriage.security.repository.UserRepository;
 import it.prova.gestionetriage.service.DottoreService;
@@ -23,6 +25,8 @@ import it.prova.gestionetriage.service.PazienteService;
 @SpringBootApplication
 public class GestionetriageApplication {
 
+	@Autowired
+	private DottoreRepository dottoreRepository;
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
@@ -37,6 +41,12 @@ public class GestionetriageApplication {
 	@Bean
 	public CommandLineRunner initAutomobili(PazienteService pazienteService, DottoreService dottoreService) {
 		return (args) -> {
+
+			dottoreRepository.save(new Dottore("Mario", "Rossi", "MARROSS78P13H501F"));
+			dottoreRepository.save(new Dottore("Peppe", "Bianchi", "PPPBBB58P13H501F"));
+			dottoreRepository.save(new Dottore("Antonio", "Marrone", "ANTMAR88P13H501F"));
+			dottoreRepository.save(new Dottore("Vincenzo", "Pipitone", "PPTVCN97P13H501F"));
+			dottoreRepository.save(new Dottore("Antonio", "Giallo", "GHIUMP13H501F"));
 
 			// Ora la parte di sicurezza
 			User user = userRepository.findByUsername("admin").orElse(null);

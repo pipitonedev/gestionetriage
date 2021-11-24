@@ -1,6 +1,7 @@
 package it.prova.gestionetriage.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import it.prova.gestionetriage.dto.DottoreRequestDTO;
 import it.prova.gestionetriage.dto.DottoreResponseDTO;
 import it.prova.gestionetriage.exceptions.DottoreNotFoundException;
 import it.prova.gestionetriage.exceptions.DottoreOccupatoException;
@@ -17,6 +19,7 @@ import it.prova.gestionetriage.model.Dottore;
 import it.prova.gestionetriage.model.Paziente;
 import it.prova.gestionetriage.service.DottoreService;
 import it.prova.gestionetriage.service.PazienteService;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping(value = "/api/assegnapaziente", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -51,8 +54,20 @@ public class AssegnaPazienteController {
 
 		if (!rispostaDottore.isInServizio() || rispostaDottore.isInVisita())
 			throw new DottoreOccupatoException("Dottore non disponibile");
-		
+
 		ResponseEntity<DottoreResponseDTO> imposta = webClient.post().uri("/impostaInVisita")
+				.body(Mono.just(new DottoreRequestDTO(dottore.getCodiceDipendente())), DottoreRequestDTO.class)
+				.retrieve().toEntity(DottoreResponseDTO.class).block();
+
+		if (imposta.getStatusCode() != HttpStatus.OK)
+			throw new RuntimeException("Errore!!");
+		
+		paziente.setDottore(dottore);
+		dottore.setPazienteAttualmenteInVisita(paziente);
+		pazienteService.save(paziente);
+		dottoreService.save(dottore);
+		
+		return;
 	}
 
 }

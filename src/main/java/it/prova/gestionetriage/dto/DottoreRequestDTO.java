@@ -22,6 +22,19 @@ public class DottoreRequestDTO {
 		this.id = id;
 	}
 
+	public DottoreRequestDTO(String codiceDipendente) {
+		super();
+		this.codiceDipendente = codiceDipendente;
+	}
+
+	public DottoreRequestDTO(Long id, String nome, String cognome, String codiceDipendente) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceDipendente = codiceDipendente;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -1,5 +1,6 @@
 package it.prova.gestionetriage.security;
 
+
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,70 +23,79 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import it.prova.gestionetriage.security.jwt.JwtAuthenticationEntryPoint;
 import it.prova.gestionetriage.security.jwt.JwtAuthenticationTokenFilter;
 
+
+
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private JwtAuthenticationEntryPoint unauthorizedHandler;
+    @Autowired
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-	@Autowired
-	private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder
+                .userDetailsService(this.userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
+    
+    @Bean
+    @Override
+     public AuthenticationManager authenticationManagerBean() throws Exception {
+          return super.authenticationManagerBean();
+    }  
 
-	@Autowired
-	public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    
+    // configurazione Cors per poter consumare le api restful con richieste ajax
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.setAllowedMethods(Arrays.asList("POST, PUT, GET, OPTIONS, DELETE"));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+        		.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                // non abbiamo bisogno di una sessione
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers(
+                        //HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                )
+                .permitAll().antMatchers("/public/**")
+                .permitAll().antMatchers(HttpMethod.GET,"/api/paziente/**")
+                .permitAll().antMatchers(HttpMethod.GET,"/api/dottore/**")
+                .permitAll().antMatchers(HttpMethod.POST,"/api/dottore/search")
+                .permitAll().antMatchers(HttpMethod.POST,"/api/paziente/search")
+                .hasAnyAuthority("ROLE_ADMIN").anyRequest().authenticated();
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+        // Filtro Custom JWT
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-	// configurazione Cors per poter consumare le api restful con richieste ajax
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("*");
-		configuration.setAllowedMethods(Arrays.asList("POST, PUT, GET, OPTIONS, DELETE"));
-		configuration.addAllowedHeader("*");
-		configuration.addAllowedMethod("*");
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
-
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-				.and()
-				// non abbiamo bisogno di una sessione
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers(
-						// HttpMethod.GET,
-						"/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js")
-				.permitAll().antMatchers("/public/**").permitAll().antMatchers(HttpMethod.GET, "/api/paziente/**")
-				.permitAll().antMatchers("/public/**").permitAll().antMatchers(HttpMethod.GET, "/api/dottore/**")
-				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers(HttpMethod.POST, "/api/paziente/search")
-				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers("/api/paziente/**")
-				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers(HttpMethod.POST, "/api/dottore/search")
-				.hasAnyAuthority("ROLE_SUB_OPERATOR").antMatchers("/api/dottore/**")
-				.hasAnyAuthority("ROLE_ADMIN")
-				.anyRequest().authenticated();
-
-		// Filtro Custom JWT
-		httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-		// inserisce negli header il Cache-Control: no-cache, no-store, max-age=0,
-		// must-revalidate...ecc.
-		httpSecurity.headers().cacheControl();
-	}
+        // inserisce negli header il Cache-Control: no-cache, no-store, max-age=0, must-revalidate...ecc.
+        httpSecurity.headers().cacheControl();
+    }
 }

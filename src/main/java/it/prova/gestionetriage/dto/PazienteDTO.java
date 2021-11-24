@@ -2,6 +2,7 @@ package it.prova.gestionetriage.dto;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.gestionetriage.model.Paziente;
@@ -16,6 +17,8 @@ public class PazienteDTO {
 	private String codiceFiscale;
 	private Date dataRegistrazione;
 	private StatoPaziente statoPaziente;
+	
+	@JsonIgnoreProperties(value = { "pazienteAttualmenteInVisita" })
 	private DottoreDTO dottore;
 
 	public PazienteDTO() {

@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import it.prova.gestionetriage.dto.DottoreDTO;
 import it.prova.gestionetriage.dto.DottoreRequestDTO;
 import it.prova.gestionetriage.dto.DottoreResponseDTO;
+import it.prova.gestionetriage.exceptions.DottoreNotFoundException;
 import it.prova.gestionetriage.model.Dottore;
 import it.prova.gestionetriage.service.DottoreService;
 import reactor.core.publisher.Mono;
@@ -79,11 +80,24 @@ public class DottoreRestController {
 
 	@PutMapping("/{id}")
 	public Dottore updateDottore(@RequestBody Dottore dottoreInput, @PathVariable Long id) {
-		Dottore dottoreToUpdate = dottoreService.get(id);
-		dottoreToUpdate.setNome(dottoreInput.getNome());
-		dottoreToUpdate.setCognome(dottoreInput.getCognome());
-		dottoreToUpdate.setCodiceDipendente(dottoreInput.getCodiceDipendente());
-		return dottoreService.save(dottoreToUpdate);
+
+		Dottore aggiornaDottore = dottoreService.get(id);
+
+		if (aggiornaDottore == null)
+			throw new DottoreNotFoundException("non ho trovato il dottore");
+
+		ResponseEntity<DottoreResponseDTO> response = webClient.post().uri("")
+				.body(Mono.just(new DottoreRequestDTO(dottoreInput.getId(), dottoreInput.getNome(),
+						dottoreInput.getCognome(), dottoreInput.getCodiceDipendente())), DottoreRequestDTO.class)
+				.retrieve().toEntity(DottoreResponseDTO.class).block();
+
+		if (response.getStatusCode() != HttpStatus.OK)
+			throw new RuntimeException("Errore nella creazione della nuova voce tramite api esterna!!!");
+
+		aggiornaDottore.setNome(dottoreInput.getNome());
+		aggiornaDottore.setCognome(dottoreInput.getCognome());
+		aggiornaDottore.setCodiceDipendente(dottoreInput.getCodiceDipendente());
+		return dottoreService.save(aggiornaDottore);
 	}
 
 	@DeleteMapping("/{id}")
