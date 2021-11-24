@@ -61,7 +61,7 @@ public class DottoreRestController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public DottoreDTO createNewDottore(@RequestBody DottoreDTO dottoreInput) {
-		
+
 		if (dottoreInput.getId() != null)
 			throw new RuntimeException("Non è ammesso fornire un id per la creazione");
 
@@ -88,6 +88,14 @@ public class DottoreRestController {
 
 	@DeleteMapping("/{id}")
 	public void deleteDottore(@PathVariable(required = true) Long id) {
+
+		ResponseEntity<DottoreResponseDTO> response = webClient.post().uri("")
+				.body(Mono.just(new DottoreRequestDTO(id)), DottoreRequestDTO.class).retrieve()
+				.toEntity(DottoreResponseDTO.class).block();
+
+		if (response.getStatusCode() != HttpStatus.CREATED)
+			throw new RuntimeException("Errore nella creazione della nuova voce tramite api esterna!!!");
+
 		dottoreService.delete(dottoreService.get(id));
 	}
 

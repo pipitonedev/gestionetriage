@@ -89,4 +89,9 @@ public class PazienteServiceImpl implements PazienteService {
 
 	}
 
+	@Override
+	public Paziente findByCodiceFiscale(String codiceFiscale) {
+		return pazienteRepository.findByCodiceFiscale(codiceFiscale);
+	}
+
 }

@@ -17,6 +17,8 @@ public interface DottoreService {
 	Dottore save(Dottore input);
 
 	void delete(Dottore input);
+	
+	Dottore findByCodiceDipendente(String codiceDipendente);
 
 
 

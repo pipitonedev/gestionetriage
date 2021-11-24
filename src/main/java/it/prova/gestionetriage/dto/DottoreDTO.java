@@ -78,6 +78,7 @@ public class DottoreDTO {
 		
 		if(input.getPazienteAttualmenteInVisita() == null)
 			return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(), null);
+		
 		return new DottoreDTO(input.getId(), input.getNome(), input.getCognome(), input.getCodiceDipendente(),
 				PazienteDTO.buildPazienteDTOFromModel(input.getPazienteAttualmenteInVisita()));
 	}

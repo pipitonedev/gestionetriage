@@ -17,5 +17,7 @@ public interface PazienteService {
 	Paziente save(Paziente input);
 
 	void delete(Paziente input);
+	
+	Paziente findByCodiceFiscale(String codiceFiscale);
 
 }

@@ -7,5 +7,7 @@ import it.prova.gestionetriage.model.Paziente;
 
 public interface PazienteRepository
 		extends PagingAndSortingRepository<Paziente, Long>, JpaSpecificationExecutor<Paziente> {
+	
+	Paziente findByCodiceFiscale(String codiceFiscale);
 
 }
